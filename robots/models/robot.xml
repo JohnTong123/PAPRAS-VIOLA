@@ -1,0 +1,105 @@
+<mujoco model="simple_robot">
+
+    <actuator>
+        <!-- Physical limits of the actuator. -->
+        <!-- Values taken from https://www.universal-robots.com/articles/ur-articles/max-joint-torques/ -->
+        <motor ctrllimited="true" ctrlrange="-150.0 150.0" joint="robot1/joint1" name="torq_j1"/>
+        <motor ctrllimited="true" ctrlrange="-150.0 150.0" joint="robot1/joint2" name="torq_j2"/>
+        <motor ctrllimited="true" ctrlrange="-150.0 150.0" joint="robot1/joint3" name="torq_j3"/>
+        <motor ctrllimited="true" ctrlrange="-28.0 28.0" joint="robot1/joint4" name="torq_j4"/>
+        <motor ctrllimited="true" ctrlrange="-28.0 28.0" joint="robot1/joint5" name="torq_j5"/>
+        <motor ctrllimited="true" ctrlrange="-28.0 28.0" joint="robot1/joint6" name="torq_j6"/>
+    </actuator>
+  <asset>
+  
+    <material name="Black" specular="0.5" shininess="0.25" rgba="0.033102 0.033102 0.033102 1.000000"/>
+    <material name="JointGrey" specular="0.5" shininess="0.25" rgba="0.278431 0.278431 0.278431 1.000000"/>
+     <material name="LinkGrey" specular="0.5" shininess="0.25" rgba="0.820392 0.820392 0.820392 1.000000"/>
+    <material name="URBlue" specular="0.5" shininess="0.25" rgba="0.490196 0.678431 0.800000 1.000000"/>
+    <mesh name="link1" file="meshes/link1.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="link2" file="meshes/link2.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="link3_papras_simple" file="meshes/link3_papras_simple.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="link4_papras_simple" file="meshes/link4_papras_simple.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="link5" file="meshes/link5.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="link6_papras_simple" file="meshes/link6_papras_simple.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="end_link" file="meshes/end_link.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="gripper_main_link" file="meshes/gripper_main_link.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="gripper_link" file="meshes/gripper_link.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="gripper_sub_link" file="meshes/gripper_sub_link.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="camera_mount_simple" file="meshes/camera_mount_simple.stl"/>
+  </asset>
+  <contact>
+    <exclude body1="base" body2="robot1/link2" />
+  </contact>
+  <worldbody>
+    <body name="base" pos="0 0 0">
+    <!-- robot view -->
+   <camera mode="fixed" name="robotview" pos="1.0 0 0.4" quat="0.653 0.271 0.271 0.653"/>
+    <inertial diaginertia="0 0 0" mass="0" pos="0 0 0"/>
+<!-- mount attached here -->
+
+    <geom type="mesh" mesh="link1"/>
+    <geom type="mesh" mesh="link1" material="LinkGrey" contype="0" conaffinity="0" group="1"/>
+    <body name="robot1/link2" pos="0 0 0.126">
+      <inertial pos="0 0.0008 0.03183" mass="0.94658" diaginertia="1 1 1"/>
+      <joint name="robot1/joint1" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" actuatorfrcrange="-100 100" damping="0.7"/>
+      <geom type="mesh" mesh="link2"/>
+      <geom type="mesh" mesh="link2" material="LinkGrey" contype="0" conaffinity="0" group="1"/>
+      <body name="robot1/link3" pos="0 0.069 0.033">
+        <inertial pos="0.01768 -0.06881 0.20524" mass="1.3026" diaginertia="1 1 1"/>
+        <joint name="robot1/joint2" pos="0 0 0" axis="0 1 0" range="-2 2" actuatorfrcrange="-100 100" damping="0.7"/>
+        <geom pos="0.067 0.008 -0.019" quat="0.000796327 0 0 1" type="mesh" mesh="link3_papras_simple"/>
+        <geom pos="0.067 0.008 -0.019" quat="0.000796327 0 0 1" type="mesh" mesh="link3_papras_simple" material="LinkGrey" contype="0" conaffinity="0" group="1"/>
+        <body name="robot1/link4" pos="0.03 -0.0115 0.264">
+          <inertial pos="0.12475 -0.05716 0.02979" mass="1.15977" diaginertia="1 1 1"/>
+          <joint name="robot1/joint3" pos="0 0 0" axis="0 1 0" range="-3.14159 1.5708" actuatorfrcrange="-100 100" damping="0.7"/>
+          <geom pos="0.227 0.0085 -0.024" quat="0.000796327 0 0 1" type="mesh" mesh="link4_papras_simple"/>
+          <geom pos="0.227 0.0085 -0.024" quat="0.000796327 0 0 1" type="mesh" mesh="link4_papras_simple" material="LinkGrey" contype="0" conaffinity="0" group="1"/>
+          <body name="robot1/link5" pos="0.195 -0.0575 0.03">
+            <inertial pos="0.05642 -0.00217 2e-05" mass="0.44688" diaginertia="1 1 1"/>
+            <joint name="robot1/joint4" pos="0 0 0" axis="1 0 0" range="-2.74889 2.74889" actuatorfrcrange="-100 100" damping="0.7"/>
+            <geom type="mesh" mesh="link5" material="LinkGrey"/>
+            <geom type="mesh" mesh="link5" material="LinkGrey" contype="0" conaffinity="0" group="1"/>
+            <body name="robot1/link6" pos="0.063 0.045 0">
+              <inertial pos="0.06831 -0.04457 0" mass="0.43273" diaginertia="1 1 1"/>
+              <joint name="robot1/joint5" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" actuatorfrcrange="-100 100" damping="0.7"/>
+              <geom pos="-0.034 -0.098 -0.028" quat="1 0 0 0" type="mesh" mesh="link6_papras_simple"/>
+               <geom pos="-0.034 -0.098 -0.028" quat="1 0 0 0"  type="mesh" mesh="link6_papras_simple" material="LinkGrey" contype="0" conaffinity="0" group="1"/>
+              <body name="robot1/end_link" pos="0.123 -0.045 0">
+                <inertial pos="0.0155548 0.00238111 0.00634774" quat="0.679934 0.19414 0.420576 0.568433" mass="0.61719" diaginertia="4.00045 4.00045 4.00001"/>
+                <joint name="robot1/joint6" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" actuatorfrcrange="-100 100" damping="0.7"/>
+                <geom type="mesh" mesh="end_link"/>
+                 <geom type="mesh" mesh="end_link" material="LinkGrey" contype="0" conaffinity="0" group="1"/>
+                <geom pos="0.007 0 0" quat="1 0 0 0" type="mesh" mesh="gripper_main_link"/>
+                <geom pos="0.0662 0.0167 0.04452" quat="1 0 0 0" type="mesh" mesh="camera_mount_simple"/>
+                <body name="right_hand" pos="0 0 0" quat="1 0 0 0">
+			    <!-- This sites were added for visualization. They are all standardized between models-->
+			    <!-- Position mimics the gripper attachment point (right_hand) -->
+			    <!--  Y-axis should be perpendicular to grasping motion, and Z-axis should point out of the robot eef -->
+			    <site name="ee" pos="0 0 0" size="0.01 0.01 0.01" rgba="0 0 1 1" type="sphere" group="1"/>
+			    <site name="ee_x" pos="0 0 0" size="0.005 .1"  quat="0.707105 0.707108 0 0 " rgba="1 0 0 0" type="cylinder" group="1"/>
+			    <site name="ee_z" pos="0 0 0" size="0.005 .1" quat="0.707105 0 0 0.707108" rgba="0 0 1 0" type="cylinder" group="1"/>
+			    <site name="ee_y" pos="0 0 0" size="0.005 .1" quat="0.707105 0 0.707108 0 " rgba="0 1 0 0" type="cylinder" group="1"/>
+			    <!-- This camera points out from the eef. -->
+			    <camera mode="fixed" name="eye_in_hand" pos="0.05 0 0" quat="0 0.707108 0.707108 0" fovy="75"/>
+			    <!-- to add gripper -->
+				</body>
+                <!--body name="robot1/gripper_link" pos="0.0622 -0.04 0" quat="0.980067 0 0 -0.198669">
+                  <inertial pos="0 0 0" mass="0.013" diaginertia="1 1 1"/>
+                  <joint name="robot1/gripper" pos="0 0 0" axis="0 0 1" range="0 1.15" actuatorfrcrange="-100 100" damping="0.1"/>
+                  <geom type="mesh" mesh="gripper_link"/>
+                </body>
+                <body name="robot1/gripper_sub_link" pos="0.0622 0.04 0" quat="0.980067 0 0 0.198669">
+                  <inertial pos="0 0 0" mass="0.013" diaginertia="1 1 1"/>
+                  <joint name="robot1/gripper_sub" pos="0 0 0" axis="0 0 -1" range="0 1.15" actuatorfrcrange="-100 100" damping="0.1"/>
+                  <geom type="mesh" mesh="gripper_sub_link"/>
+                </body-->
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+    </body>    
+  </worldbody>
+</mujoco>

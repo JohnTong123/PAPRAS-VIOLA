@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <model name="marker08_3cm">
+    <static>false</static>
+    <link name="marker">
+      <gravity>false</gravity>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.04 0.04 0.001</size>
+            <!-- SIZE OF THE MARKER + MARGIN -->
+          </box>
+        </geometry>
+        <material>
+          <script>
+	    <uri>model://marker08_massless/materials/scripts</uri>
+	    <uri>model://marker08_massless/materials/textures</uri>
+            <name>Aruco/marker08_3cm</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

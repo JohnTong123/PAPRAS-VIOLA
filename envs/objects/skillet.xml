@@ -1,0 +1,101 @@
+<mujoco model="skillet">
+  <asset>
+    <texture file="meshes/metal.png" name="tex-metal" type="2d" />
+    <material name="wood" reflectance="0.5" texrepeat="1 1" texture="tex-metal" texuniform="false" />
+    <material name="default_mat" rgba="0.2 0.2 0.2 1" specular="0.0" shininess="0.0"/>
+    <mesh file="./skillet/skillet/skillet.obj" name="skillet_mesh" scale = "0.0015 0.0015 0.0015"/>
+    <mesh file="./skillet/skillet/skillet_collision_0.obj" name = "collision_0"/>
+    <mesh file="./skillet/skillet/skillet_collision_1.obj" name = "collision_1"/>
+    <mesh file="./skillet/skillet/skillet_collision_2.obj" name = "collision_2"/>
+    <mesh file="./skillet/skillet/skillet_collision_3.obj" name = "collision_3"/>
+    <mesh file="./skillet/skillet/skillet_collision_4.obj" name = "collision_4"/>
+    <mesh file="./skillet/skillet/skillet_collision_5.obj" name = "collision_5"/>
+    <mesh file="./skillet/skillet/skillet_collision_6.obj" name = "collision_6"/>
+    <mesh file="./skillet/skillet/skillet_collision_7.obj" name = "collision_7"/>
+    <mesh file="./skillet/skillet/skillet_collision_8.obj" name = "collision_8"/>
+    <mesh file="./skillet/skillet/skillet_collision_9.obj" name = "collision_9"/>
+    <mesh file="./skillet/skillet/skillet_collision_10.obj" name = "collision_10"/>
+    <mesh file="./skillet/skillet/skillet_collision_11.obj" name = "collision_11"/>
+    <mesh file="./skillet/skillet/skillet_collision_12.obj" name = "collision_12"/>
+    <mesh file="./skillet/skillet/skillet_collision_13.obj" name = "collision_13"/>
+    <mesh file="./skillet/skillet/skillet_collision_14.obj" name = "collision_14"/>
+    <mesh file="./skillet/skillet/skillet_collision_15.obj" name = "collision_15"/>
+    <mesh file="./skillet/skillet/skillet_collision_16.obj" name = "collision_16"/>
+    <mesh file="./skillet/skillet/skillet_collision_17.obj" name = "collision_17"/>
+    <mesh file="./skillet/skillet/skillet_collision_18.obj" name = "collision_18"/>
+    <mesh file="./skillet/skillet/skillet_collision_19.obj" name = "collision_19"/>
+    <mesh file="./skillet/skillet/skillet_collision_20.obj" name = "collision_20"/>
+    <mesh file="./skillet/skillet/skillet_collision_21.obj" name = "collision_21"/>
+    <mesh file="./skillet/skillet/skillet_collision_22.obj" name = "collision_22"/>
+    <mesh file="./skillet/skillet/skillet_collision_23.obj" name = "collision_23"/>
+    <mesh file="./skillet/skillet/skillet_collision_24.obj" name = "collision_24"/>
+    <mesh file="./skillet/skillet/skillet_collision_25.obj" name = "collision_25"/>
+    <mesh file="./skillet/skillet/skillet_collision_26.obj" name = "collision_26"/>
+    <mesh file="./skillet/skillet/skillet_collision_27.obj" name = "collision_27"/>
+    <mesh file="./skillet/skillet/skillet_collision_28.obj" name = "collision_28"/>
+    <mesh file="./skillet/skillet/skillet_collision_29.obj" name = "collision_29"/>
+    <mesh file="./skillet/skillet/skillet_collision_30.obj" name = "collision_30"/>
+    <mesh file="./skillet/skillet/skillet_collision_31.obj" name = "collision_31"/>
+    <mesh file="./skillet/skillet/skillet_collision_32.obj" name = "collision_32"/>
+    <!-- Add other collision meshes if needed -->
+  </asset>
+
+  <default>
+    <default class="visual">
+      <geom group="1" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="1" type="mesh"/>
+    </default>
+  </default>
+
+  <worldbody>
+    <body >
+    <body name="object" >
+      <!-- Main visual mesh -->
+      <geom mesh="skillet_mesh" material="default_mat" class="visual" pos="0 0 0"/>
+      <!-- Collision geoms for skillet -->
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_0" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_1" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_2" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_3" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_4" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_5" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_6" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_7" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_8" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_9" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_10" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_11"  class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_12" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_13" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_14"  class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_15" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_16" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_17" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_18" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_19"  class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_20"  class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_21" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_22" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_23" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_24" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_25" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_26" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_27" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_28" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_29" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_30" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_31" class="collision" material="default_mat" />
+      <geom solimp="0.9 0.95 0.01" solref="0.02 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="collision_32" class="collision" material="default_mat" />
+        <inertial mass="4.0" pos="0 0 0" diaginertia="0.5 0.5 0.5" />
+        
+      <!-- Add more collision geoms if needed -->
+    </body>
+    
+    <site rgba="0 0 0 0" size="0.005" pos="0 0 -0.02" name="bottom_site" />
+    <site rgba="0 0 0 0" size="0.005" pos="0 0 0.02" name="top_site" />
+    <site rgba="0 0 0 0" size="0.005" pos="0.02 0.02 0" name="horizontal_radius_site" />
+    </body>
+  </worldbody>
+</mujoco>

@@ -1,0 +1,1 @@
+These folders must be placed in your ~/.gazebo/models folder to create new worlds.

@@ -1,0 +1,106 @@
+<!-- <mujoco model="skillet">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <material name="0.200000_0.200000_0.200000_0.000000_0.000000" specular="0.0" shininess="0.0" rgba="0.2 0.2 0.2 1"/>
+    <mesh file="skillet.obj"/>
+    <mesh file="skillet_collision_0.obj"/>
+    <mesh file="skillet_collision_1.obj"/>
+    <mesh file="skillet_collision_2.obj"/>
+    <mesh file="skillet_collision_3.obj"/>
+    <mesh file="skillet_collision_4.obj"/>
+    <mesh file="skillet_collision_5.obj"/>
+    <mesh file="skillet_collision_6.obj"/>
+    <mesh file="skillet_collision_7.obj"/>
+    <mesh file="skillet_collision_8.obj"/>
+    <mesh file="skillet_collision_9.obj"/>
+    <mesh file="skillet_collision_10.obj"/>
+    <mesh file="skillet_collision_11.obj"/>
+    <mesh file="skillet_collision_12.obj"/>
+    <mesh file="skillet_collision_13.obj"/>
+    <mesh file="skillet_collision_14.obj"/>
+    <mesh file="skillet_collision_15.obj"/>
+    <mesh file="skillet_collision_16.obj"/>
+    <mesh file="skillet_collision_17.obj"/>
+    <mesh file="skillet_collision_18.obj"/>
+    <mesh file="skillet_collision_19.obj"/>
+    <mesh file="skillet_collision_20.obj"/>
+    <mesh file="skillet_collision_21.obj"/>
+    <mesh file="skillet_collision_22.obj"/>
+    <mesh file="skillet_collision_23.obj"/>
+    <mesh file="skillet_collision_24.obj"/>
+    <mesh file="skillet_collision_25.obj"/>
+    <mesh file="skillet_collision_26.obj"/>
+    <mesh file="skillet_collision_27.obj"/>
+    <mesh file="skillet_collision_28.obj"/>
+    <mesh file="skillet_collision_29.obj"/>
+    <mesh file="skillet_collision_30.obj"/>
+    <mesh file="skillet_collision_31.obj"/>
+    <mesh file="skillet_collision_32.obj"/>
+  </asset>
+  <worldbody>
+    <body name="skillet">
+      <geom material="0.200000_0.200000_0.200000_0.000000_0.000000" mesh="skillet" class="visual"/>
+      <geom mesh="skillet_collision_0" rgba="0.3760312532431924 0.846054491127809 0.4803776295293567 1" class="collision"/>
+      <geom mesh="skillet_collision_1" rgba="0.23371934434555863 0.2677687215997093 0.7304944770959647 1" class="collision"/>
+      <geom mesh="skillet_collision_2" rgba="0.7112361814938187 0.9629809246882299 0.4558590542817742 1" class="collision"/>
+      <geom mesh="skillet_collision_3" rgba="0.18993008378978438 0.8472676861752356 0.4495820271939013 1" class="collision"/>
+      <geom mesh="skillet_collision_4" rgba="0.42174508868630234 0.6937044249278795 0.36883281797202994 1" class="collision"/>
+      <geom mesh="skillet_collision_5" rgba="0.5993315573070981 0.32303141402016666 0.3273599475376493 1" class="collision"/>
+      <geom mesh="skillet_collision_6" rgba="0.8676316807374743 0.49810001842973195 0.36358771710353044 1" class="collision"/>
+      <geom mesh="skillet_collision_7" rgba="0.37273502413305637 0.9211146660490624 0.4724126616693791 1" class="collision"/>
+      <geom mesh="skillet_collision_8" rgba="0.4077215477819831 0.4309159000147321 0.39219751860876917 1" class="collision"/>
+      <geom mesh="skillet_collision_9" rgba="0.24634361845667685 0.7868669706035015 0.6684322137418371 1" class="collision"/>
+      <geom mesh="skillet_collision_10" rgba="0.4362420933531024 0.7346542776544973 0.7083072217287749 1" class="collision"/>
+      <geom mesh="skillet_collision_11" rgba="0.17763028751310783 0.2396826032551419 0.08252193847140543 1" class="collision"/>
+      <geom mesh="skillet_collision_12" rgba="0.7416360626865958 0.157133223362941 0.4074064877134358 1" class="collision"/>
+      <geom mesh="skillet_collision_13" rgba="0.8150887655515376 0.2211751661962872 0.3123035768384399 1" class="collision"/>
+      <geom mesh="skillet_collision_14" rgba="0.9127133735922028 0.35172302756940443 0.6373245671928064 1" class="collision"/>
+      <geom mesh="skillet_collision_15" rgba="0.17688052651121644 0.7218196590622895 0.7661538991439144 1" class="collision"/>
+      <geom mesh="skillet_collision_16" rgba="0.9019714571695289 0.29547545860449087 0.5896582788135343 1" class="collision"/>
+      <geom mesh="skillet_collision_17" rgba="0.8825327317657721 0.39290090351998963 0.08732729494130342 1" class="collision"/>
+      <geom mesh="skillet_collision_18" rgba="0.5471540273610306 0.6823882241730618 0.48381958409411063 1" class="collision"/>
+      <geom mesh="skillet_collision_19" rgba="0.4555598487595691 0.11461487015929761 0.7443463554317106 1" class="collision"/>
+      <geom mesh="skillet_collision_20" rgba="0.7876328871280509 0.5803020366177282 0.7908368805779559 1" class="collision"/>
+      <geom mesh="skillet_collision_21" rgba="0.9203968396506341 0.04268911981185519 0.055232917018620875 1" class="collision"/>
+      <geom mesh="skillet_collision_22" rgba="0.6027579040164298 0.44148996923950345 0.8536143246152909 1" class="collision"/>
+      <geom mesh="skillet_collision_23" rgba="0.213585761426908 0.27808184334300934 0.1384515997057384 1" class="collision"/>
+      <geom mesh="skillet_collision_24" rgba="0.02372274408043551 0.35434026661771767 0.40303723804282754 1" class="collision"/>
+      <geom mesh="skillet_collision_25" rgba="0.2764544531091536 0.36183005037486404 0.4785008810707415 1" class="collision"/>
+      <geom mesh="skillet_collision_26" rgba="0.9113927340261416 0.010966794734109109 0.9257533289745785 1" class="collision"/>
+      <geom mesh="skillet_collision_27" rgba="0.7898630279035311 0.3592429857407897 0.506423476211068 1" class="collision"/>
+      <geom mesh="skillet_collision_28" rgba="0.9713751175285247 0.9612352334664256 0.4578989772870058 1" class="collision"/>
+      <geom mesh="skillet_collision_29" rgba="0.9755890909191365 0.0936814059319121 0.06883231013290025 1" class="collision"/>
+      <geom mesh="skillet_collision_30" rgba="0.1459651039318165 0.48869263324021406 0.39045322768931423 1" class="collision"/>
+      <geom mesh="skillet_collision_31" rgba="0.06562636628840113 0.653281644159694 0.6594717738692034 1" class="collision"/>
+      <geom mesh="skillet_collision_32" rgba="0.6629241794384505 0.725887666090751 0.7556140194041987 1" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>
+
+
+ -->
+
+<mujoco model="skillet">
+  <asset>
+  <texture file="meshes/metal.png" name="tex-metal" type="2d" />
+  <material name="wood" reflectance="0.5" texrepeat="1 1" texture="tex-metal" texuniform="false" />
+  <mesh file="./cookpot.stl" name="pot" scale="0.00066 0.0006 0.0006" /></asset>
+  <!-- <mesh file="./huh.stl" name="pot" scale="0.07 0.07 0.07" /></asset> -->
+  <worldbody>
+    <body>
+      <body name="object">
+      <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="pot" conaffinity="0" contype="1" group="1" material="wood" />
+      <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="pot" pos="0.00000 0.00000 -0.00000" size="1.00066 1.00066 1.00066" group="0" rgba="0.8 0.8 0.8 0." /></body>
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 -0.02" name="bottom_site" />
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 0.02" name="top_site" />
+      <site rgba="0 0 0 0" size="0.005" pos="0.02 0.02 0" name="horizontal_radius_site" />
+    </body>
+  </worldbody>
+</mujoco>

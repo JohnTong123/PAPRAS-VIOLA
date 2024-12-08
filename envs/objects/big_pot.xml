@@ -1,0 +1,26 @@
+<mujoco>
+    <worldbody>
+        <body name="kitchen_pot" pos="0 0 0">
+            <!-- Outer cylinder -->
+            <geom type="cylinder" 
+                  size="0.125 0.1"  
+                  pos="0 0 0" 
+                  quat="0 0 0 1" 
+                  rgba="0.7 0.7 0.7 1" 
+                  material="steel_scratched_mat"/>
+
+            <!-- Inner cylinder (invisible, hollow part) -->
+            <geom type="cylinder" 
+                  size="0.12 0.09" 
+                  pos="0 0 0" 
+                  quat="0 0 0 1" 
+                  rgba="0 0 0 0" 
+                  material="none"/>  
+        </body>
+    </worldbody>
+
+    <asset>
+        <texture name="steel_scratched_tex" type="2d" file="path/to/texture.jpg" />
+        <material name="steel_scratched_mat" texture="steel_scratched_tex" texcoord="0 0" texrepeat="1 1" shininess="0.1" specular="0.4" />
+    </asset>
+</mujoco>

@@ -1,0 +1,23 @@
+<mujoco model="wooden-spoon">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <material name="Material.wooden-spoon" specular="0.5" shininess="0.5" rgba="1.0 1.0 1.0 1.0"/>
+    <mesh file="wooden-spoon.obj"/>
+    <mesh file="wooden-spoon_collision_0.obj"/>
+    <mesh file="wooden-spoon_collision_1.obj"/>
+  </asset>
+  <worldbody>
+    <body name="wooden-spoon">
+      <geom material="Material.wooden-spoon" mesh="wooden-spoon" class="visual"/>
+      <geom mesh="wooden-spoon_collision_0" rgba="0.8465304946869062 0.07697571704585238 0.580030569824619 1" class="collision"/>
+      <geom mesh="wooden-spoon_collision_1" rgba="0.5580519493691197 0.26179958527465585 0.8014001416113136 1" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>
