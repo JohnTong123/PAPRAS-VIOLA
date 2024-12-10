@@ -1,4 +1,4 @@
-<!-- <mujoco model="skillet">
+<mujoco model="skillet">
   <default>
     <default class="visual">
       <geom group="2" type="mesh" contype="0" conaffinity="0"/>
@@ -85,22 +85,4 @@
 </mujoco>
 
 
- -->
 
-<mujoco model="skillet">
-  <asset>
-  <texture file="meshes/metal.png" name="tex-metal" type="2d" />
-  <material name="wood" reflectance="0.5" texrepeat="1 1" texture="tex-metal" texuniform="false" />
-  <mesh file="./cookpot.stl" name="pot" scale="0.00066 0.0006 0.0006" /></asset>
-  <!-- <mesh file="./huh.stl" name="pot" scale="0.07 0.07 0.07" /></asset> -->
-  <worldbody>
-    <body>
-      <body name="object">
-      <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="pot" conaffinity="0" contype="1" group="1" material="wood" />
-      <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="200" friction="2.05 1.4 0.15" type="mesh" mesh="pot" pos="0.00000 0.00000 -0.00000" size="1.00066 1.00066 1.00066" group="0" rgba="0.8 0.8 0.8 0." /></body>
-      <site rgba="0 0 0 0" size="0.005" pos="0 0 -0.02" name="bottom_site" />
-      <site rgba="0 0 0 0" size="0.005" pos="0 0 0.02" name="top_site" />
-      <site rgba="0 0 0 0" size="0.005" pos="0.02 0.02 0" name="horizontal_radius_site" />
-    </body>
-  </worldbody>
-</mujoco>

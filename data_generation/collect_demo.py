@@ -29,6 +29,109 @@ from envs import *
 import cv2
 from robots.papras import PAPRAS
 
+import robosuite.utils.transform_utils as T
+from robosuite.devices import *
+from robosuite.models.robots import *
+from robosuite.robots import *
+
+
+
+
+
+def input2actionmod(device, robot, active_arm="right", env_configuration=None):
+    
+    
+    state = device.get_controller_state()
+    # print(device.get_controller_state())
+    # print(device.get_controller_state()["dpos"])
+
+    # Note: Devices output rotation with x and z flipped to account for robots starting with gripper facing down
+    #       Also note that the outputted rotation is an absolute rotation, while outputted dpos is delta pos
+    #       Raw delta rotations from neutral user input is captured in raw_drotation (roll, pitch, yaw)
+    dpos, rotation, raw_drotation, grasp, reset = (
+        state["dpos"],
+        state["rotation"],
+        state["raw_drotation"],
+        state["grasp"],
+        state["reset"],
+    )
+    # print(dpos)
+    # print('aa')
+    # If we're resetting, immediately return None
+    if reset:
+        return None, None
+
+    # Get controller reference
+    controller = robot.controller if not isinstance(robot, Bimanual) else robot.controller[active_arm]
+    gripper_dof = robot.gripper.dof if not isinstance(robot, Bimanual) else robot.gripper[active_arm].dof
+
+    # First process the raw drotation
+    drotation = raw_drotation[[1, 0, 2]]
+    # print(controller.name)
+    # print('ahhh')
+    if controller.name == "IK_POSE":
+        # If this is panda, want to swap x and y axis
+        if isinstance(robot.robot_model, Panda):
+            drotation = drotation[[1, 0, 2]]
+        else:
+            # Flip x
+            drotation[0] = -drotation[0]
+        # Scale rotation for teleoperation (tuned for IK)
+        drotation *= 10
+        dpos *= 5
+        # relative rotation of desired from current eef orientation
+        # map to quat
+        drotation = T.mat2quat(T.euler2mat(drotation))
+
+        # If we're using a non-forward facing configuration, need to adjust relative position / orientation
+        if env_configuration == "single-arm-opposed":
+            # Swap x and y for pos and flip x,y signs for ori
+            dpos = dpos[[1, 0, 2]]
+            drotation[0] = -drotation[0]
+            drotation[1] = -drotation[1]
+            if active_arm == "left":
+                # x pos needs to be flipped
+                dpos[0] = -dpos[0]
+            else:
+                # y pos needs to be flipped
+                dpos[1] = -dpos[1]
+
+        # Lastly, map to axis angle form
+        drotation = T.quat2axisangle(drotation)
+
+    elif controller.name == "OSC_POSE":
+        # Flip z
+        drotation[2] = -drotation[2]
+        # Scale rotation for teleoperation (tuned for OSC) -- gains tuned for each device
+        drotation = drotation * 1.5 if isinstance(device, Keyboard) else drotation * 50
+        dpos = dpos * 75 if isinstance(device, Keyboard) else dpos * 125
+    elif controller.name == "OSC_POSITION":
+        # print(dpos)
+
+        dpos = dpos * 75 if isinstance(device, Keyboard) else dpos * 125
+    else:
+        # No other controllers currently supported
+        print("Error: Unsupported controller specified -- Robot must have either an IK or OSC-based controller!")
+
+    # map 0 to -1 (open) and map 1 to 1 (closed)
+    grasp = 1 if grasp else -1
+
+    # Create action based on action space of individual robot
+    if controller.name == "OSC_POSITION":
+        # print(dpos)
+        # print(gripper_dof)
+        action = np.concatenate([dpos, [grasp] * gripper_dof])
+    else:
+        action = np.concatenate([dpos, drotation, [grasp] * gripper_dof])
+
+    # Return the action and grasp
+    # print(action,"act")
+    return action, grasp
+
+
+
+
+
 def collect_human_trajectory(env, device, arm, env_configuration, remove_directory=[], use_discrete_actions=False, num_discrete_actions=11):
     """
     Use the device (keyboard or SpaceNav 3D mouse) to collect a demonstration.
@@ -60,14 +163,22 @@ def collect_human_trajectory(env, device, arm, env_configuration, remove_directo
         count += 1
         # Set active robot
         active_robot = env.robots[0] if env_configuration == "bimanual" else env.robots[arm == "left"]
-
+        # print(env.robots[0].get_observations().keys())
+        # print(env._get_observations()["robot0_gripper_qpos"])
+        # print('ahhh')
+        # print(env.get_observations().keys(),"key")
+        print(env._get_observations()["robot0_eef_pos"])
+        # print(env_configuration)
+        # print(device)
+        # print(arm)  
         # Get the newest action
-        action, grasp = input2action(
+        action, grasp = input2actionmod(
             device=device,
             robot=active_robot,
             active_arm=arm,
             env_configuration=env_configuration
         )
+        # print(action, "action")
         # print(action,grasp)
         # If action is none, then this a reset so we should break
         if action is None:
@@ -80,7 +191,8 @@ def collect_human_trajectory(env, device, arm, env_configuration, remove_directo
             action = env.get_discrete_action()
 
         # Run environment step
-        
+        # print(action)
+        # print('aaaaa')
         env.step(action)
         env.render()
 

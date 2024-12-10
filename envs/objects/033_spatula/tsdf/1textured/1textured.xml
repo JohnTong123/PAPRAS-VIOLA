@@ -8,7 +8,7 @@
     </default>
   </default>
   <asset>
-    <texture type="2d" name="textured" file="textured.png"/>
+    <texture type="2d" name="textured" file="1textured.png"/>
     <material name="texture_textured.png" texture="textured" specular="0.5" shininess="0.09607843099999999"/>
     <mesh file="1textured.obj"/>
   </asset>

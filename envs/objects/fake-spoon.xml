@@ -1,0 +1,17 @@
+<mujoco model="fake-spoon">
+  <asset>
+  <texture file="./meshes/wood.png" name="tex-wood" type="2d" />
+  <material name="wood" reflectance="0.5" texrepeat="1 1" texture="tex-wood" texuniform="false" />
+  <!-- <Geom type="trimesh"> -->
+  <mesh file="./fake-spoon.stl" name="spoon" scale="0.8 0.8 0.8" /></asset>
+  <worldbody>
+    <body>
+      <body name="object">
+      <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="1.95 1.2 0.1" type="mesh" mesh="spoon" conaffinity="0" contype="1" group="1" material="wood" pos="0.00000 0.00000 -0.00000" quat="0.707 0.70700 0.0000 0.00000"/>
+      <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="1.95 1.2 0.1" type="mesh" mesh="spoon" pos="0.00000 0.00000 -0.00000" quat="0.707 0.70700 0.0000 0.00000" size="0.2 0.02 0.02" group="0"/></body>
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 -0.02" name="bottom_site" />
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 0.02" name="top_site" />
+      <site rgba="0 0 0 0" size="0.005" pos="0.02 0.02 0" name="horizontal_radius_site" />
+    </body>
+  </worldbody>
+</mujoco>

@@ -24,7 +24,7 @@ butter_dict = {
     "rotation_axis": "z"
 }
 
-stirring_pot_dict = {
+cream_cheese_dict = {
     "xrange": [[0.15, 0.20]],
     "yrange": [[0.0, 0.05]],    
     "rotation": [-np.pi / 6., np.pi / 6.],
@@ -59,11 +59,11 @@ bin_dict = {
 
 
 BIN_SORTING_SPECS = EasyDict({
-        "objects": ["stirring_pot", "bbq_sauce", "butter"],
+        "objects": ["cream_cheese", "bbq_sauce", "butter"],
         "butter": butter_dict,
         "bbq_sauce": bbq_sauce_dict,
         "cookies": cookies_dict,
-        "stirring_pot": stirring_pot_dict,
+        "cream_cheese": cream_cheese_dict,
         "bin": bin_dict,    
     })
 
@@ -73,14 +73,14 @@ def get_sort_two_objects_exp_tasks(exp_name="normal", *args, **kwargs):
         pass
 
     elif exp_name == "distracting":
-        task_specs["objects"] = ["stirring_pot", "bbq_sauce", "cookies", "butter"]
+        task_specs["objects"] = ["cream_cheese", "bbq_sauce", "cookies", "butter"]
 
     elif exp_name == "placement":
         task_specs["butter"]["xrange"] = [[0.20, 0.22], [0.20, 0.22]]
         task_specs["butter"]["yrange"] = [[0.08, 0.10], [0.15, 0.17]]
 
-        task_specs["stirring_pot"]["xrange"] = [[0.20, 0.22], [0.20, 0.22]]
-        task_specs["stirring_pot"]["yrange"] = [[-0.02, 0.0], [0.05, 0.07]]
+        task_specs["cream_cheese"]["xrange"] = [[0.20, 0.22], [0.20, 0.22]]
+        task_specs["cream_cheese"]["yrange"] = [[-0.02, 0.0], [0.05, 0.07]]
         pass
 
     elif exp_name == "camera-change":
@@ -187,7 +187,7 @@ class SortTwoObjectsDomain(BaseDomain):
 
         table_height = self.model.mujoco_arena.table_offset[2]
 
-        cream_pos = self.sim.data.body_xpos[self.obj_body_id["stirring_pot"]]
+        cream_pos = self.sim.data.body_xpos[self.obj_body_id["cream_cheese"]]
         butter_pos = self.sim.data.body_xpos[self.obj_body_id["butter"]]
         
         bin_pos = self.sim.data.body_xpos[self.obj_body_id["bin"]]

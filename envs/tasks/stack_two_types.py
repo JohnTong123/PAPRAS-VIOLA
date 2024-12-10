@@ -11,13 +11,14 @@ from robosuite.models.arenas import TableArena
 from robosuite.models.objects import MujocoXMLObject, CompositeObject
 from robosuite.utils.mjcf_utils import xml_path_completion, add_to_dict, array_to_string, CustomMaterial
 import robosuite.utils.transform_utils as T
+from envs.objects.spoon import SpoonObject
 from copy import deepcopy
 from envs.utils import MultiRegionRandomSampler
 
 
 wooden_dict = {
-    "xrange": [[0.2, 0.2]],
-    "yrange": [[-0.2, -0.2]],        
+    "xrange": [[0.17, 0.25]],
+    "yrange": [[-0.17, -0.2]],        
     "rotation": [np.pi/2, np.pi/2.],    
     # "rotation": [0, 0],    
     "z_offset": 0.1,
@@ -25,8 +26,8 @@ wooden_dict = {
 }
 
 skillet_dict = {
-    "xrange": [[0.2, 0.2]],
-    "yrange": [[0.2, 0.2]],
+    "xrange": [[0.17, 0.25]],
+    "yrange": [[0.17, 0.2]],
     "rotation": [np.pi/2, np.pi/2],
     # "rotation": [0,0],   
     "z_offset": 0.1,
@@ -73,8 +74,8 @@ target_region_dict = {
 
 PUT_BIN_SPECS = EasyDict({
         # "objects": ["skillet", "wooden"],
-        "objects": ["skillet", "wooden-spoon"],
-        "wooden-spoon": wooden_dict,
+        "objects": ["skillet", "fake-spoon"],
+        "fake-spoon": wooden_dict,
         "cookies": cookies_dict,
         "skillet": skillet_dict,
         "target_region": target_region_dict,
@@ -89,13 +90,13 @@ def get_stack_two_types_exp_tasks(exp_name="normal", *args, **kwargs):
         pass
 
     elif exp_name == "distracting":
-        task_specs["objects"] = ["skillet", "wooden-spoon",  "cookies"]
+        task_specs["objects"] = ["skillet", "fake-spoon",  "cookies"]
 
     elif exp_name == "placement":
         task_specs["skillet"]["xrange"] = [[0.2, 0.2]]
         task_specs["skillet"]["yrange"] = [[0.2, 0.2]]
-        task_specs["wooden-spoon"]["xrange"] = [[-0.05, -0.05]]
-        task_specs["wooden-spoon"]["yrange"] = [[-0.0, -0.0]]
+        task_specs["fake-spoon"]["xrange"] = [[-0.05, -0.05]]
+        task_specs["fake-spoon"]["yrange"] = [[-0.0, -0.0]]
         pass
 
     elif exp_name == "camera-change":
@@ -168,11 +169,22 @@ class StackTwoTypesDomain(BaseDomain):
                     z_offset=self.task_specs[obj]["z_offset"],
                 )
             )
+        #     )
+        # for obj_name in ["skillet", "wooden-spoon"]:
+        #     # Get the object ID from the model
+        #     # print(self.sim)
+        #     obj_id = self.obj_body_id(obj_name)
+            
+        #     # Get the actual position of the object in the simulation
+        #     object_position = self.data.body_xpos[obj_id]
+            
+        #     # Print the position (x, y, z)
+        #     print(f"Actual position of {obj_name}: {object_position}")
 
     def _check_success(self):
 
         cream_pos = self.sim.data.body_xpos[self.obj_body_id["skillet"]]
-        wooden_pos = self.sim.data.body_xpos[self.obj_body_id["wooden-spoon"]]
+        wooden_pos = self.sim.data.body_xpos[self.obj_body_id["fake-spoon"]]
         # print('skillet')
         # print(cream)
         # print(self.sim.model.geom_size)
@@ -192,6 +204,12 @@ class StackTwoTypesDomain(BaseDomain):
         # return bbq_in_bin
         # return cream_stacked and wooden_stacked
         return False
+    def get_obj(self):
+        skillet_pos = self.sim.data.body_xpos[self.obj_body_id["skillet"]]
+        spoon_pos = bq_pos = self.sim.data.body_xpos[self.obj_body_id["fake-spoon"]]
+        return (skillet_pos,spoon_pos)
+        # bin_pos = self.sim.data.body_xpos[self.obj_body_id["bin"]]
+        # bin_pos = self.sim.data.body_xpos[self.obj_body_id["bin"]]
 
     def get_object_names(self):
 
@@ -209,6 +227,11 @@ class StackTwoTypesDomain(BaseDomain):
             pos=[0.456131746834771, 0.0, 1.3503500240372423],
             quat=[0.6380177736282349, 0.3048497438430786, 0.30484986305236816, 0.6380177736282349]
         )
+        # mujoco_arena.set_camera(
+        #     camera_name="agentview",
+        #     pos=[0.456131746834771, 0.0, 1.5503500240372423],
+        #     quat=[0.6380177736282349, 0.3048497438430786, 0.30484986305236816, 0.6380177736282349]
+        # )
         mujoco_arena.set_camera(
             camera_name="agentview",
             pos=[0, 0.0, 2.5],
@@ -219,7 +242,13 @@ class StackTwoTypesDomain(BaseDomain):
     #     # Set up the fixed camera ("frontview")
     #     mujoco_arena.set_camera(
     #         camera_name="frontview",
-    #         pos=[0.456131746834771, 0.0, 1.3503500240372423],
+    #         pos=[0.456131746834771, 0.0, .3503500240372423],
+    #         # pos = [0, 0.0, 0],
+    #         quat=[0.6380177736282349, 0.3048497438430786, 0.30484986305236816, 0.6380177736282349]
+    #     )
+    #     mujoco_arena.set_camera(
+    #         camera_name="agentview",
+    #         pos=[0.456131746834771, 0.0, 2.3503500240372423],
     #         quat=[0.6380177736282349, 0.3048497438430786, 0.30484986305236816, 0.6380177736282349]
     #     )
     #     # Set up the "agentview" camera, which will follow the end effector
