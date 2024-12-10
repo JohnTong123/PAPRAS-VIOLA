@@ -25,12 +25,9 @@ from robosuite.utils.input_utils import input2action
 import init_path
 
 from envs import *
-from pid import basicPID
 
 import cv2
 from robots.papras import PAPRAS
-
-
 
 import robosuite.utils.transform_utils as T
 from robosuite.devices import *
@@ -40,112 +37,97 @@ from robosuite.robots import *
 
 
 
-# def input2actionmod(device, robot, active_arm="right", env_configuration=None):
+
+def input2actionmod(device, robot, active_arm="right", env_configuration=None):
     
     
-#     state = device.get_controller_state()
-#     # Note: Devices output rotation with x and z flipped to account for robots starting with gripper facing down
-#     #       Also note that the outputted rotation is an absolute rotation, while outputted dpos is delta pos
-#     #       Raw delta rotations from neutral user input is captured in raw_drotation (roll, pitch, yaw)
-#     dpos, rotation, raw_drotation, grasp, reset = (
-#         state["dpos"],
-#         state["rotation"],
-#         state["raw_drotation"],
-#         state["grasp"],
-#         state["reset"],
-#     )
+    state = device.get_controller_state()
+    # print(device.get_controller_state())
+    # print(device.get_controller_state()["dpos"])
 
-#     # If we're resetting, immediately return None
-#     if reset:
-#         return None, None
+    # Note: Devices output rotation with x and z flipped to account for robots starting with gripper facing down
+    #       Also note that the outputted rotation is an absolute rotation, while outputted dpos is delta pos
+    #       Raw delta rotations from neutral user input is captured in raw_drotation (roll, pitch, yaw)
+    dpos, rotation, raw_drotation, grasp, reset = (
+        state["dpos"],
+        state["rotation"],
+        state["raw_drotation"],
+        state["grasp"],
+        state["reset"],
+    )
+    # print(dpos)
+    # print('aa')
+    # If we're resetting, immediately return None
+    if reset:
+        return None, None
 
-#     # Get controller reference
-#     controller = robot.controller if not isinstance(robot, Bimanual) else robot.controller[active_arm]
-#     gripper_dof = robot.gripper.dof if not isinstance(robot, Bimanual) else robot.gripper[active_arm].dof
+    # Get controller reference
+    controller = robot.controller if not isinstance(robot, Bimanual) else robot.controller[active_arm]
+    gripper_dof = robot.gripper.dof if not isinstance(robot, Bimanual) else robot.gripper[active_arm].dof
 
-#     # First process the raw drotation
-#     drotation = raw_drotation[[1, 0, 2]]
-#     print(controller.name)
-#     if controller.name == "IK_POSE":
-#         # If this is panda, want to swap x and y axis
-#         if isinstance(robot.robot_model, Panda):
-#             drotation = drotation[[1, 0, 2]]
-#         else:
-#             # Flip x
-#             drotation[0] = -drotation[0]
-#         # Scale rotation for teleoperation (tuned for IK)
-#         drotation *= 10
-#         dpos *= 5
-#         # relative rotation of desired from current eef orientation
-#         # map to quat
-#         drotation = T.mat2quat(T.euler2mat(drotation))
+    # First process the raw drotation
+    drotation = raw_drotation[[1, 0, 2]]
+    # print(controller.name)
+    # print('ahhh')
+    if controller.name == "IK_POSE":
+        # If this is panda, want to swap x and y axis
+        if isinstance(robot.robot_model, Panda):
+            drotation = drotation[[1, 0, 2]]
+        else:
+            # Flip x
+            drotation[0] = -drotation[0]
+        # Scale rotation for teleoperation (tuned for IK)
+        drotation *= 10
+        dpos *= 5
+        # relative rotation of desired from current eef orientation
+        # map to quat
+        drotation = T.mat2quat(T.euler2mat(drotation))
 
-#         # If we're using a non-forward facing configuration, need to adjust relative position / orientation
-#         if env_configuration == "single-arm-opposed":
-#             # Swap x and y for pos and flip x,y signs for ori
-#             dpos = dpos[[1, 0, 2]]
-#             drotation[0] = -drotation[0]
-#             drotation[1] = -drotation[1]
-#             if active_arm == "left":
-#                 # x pos needs to be flipped
-#                 dpos[0] = -dpos[0]
-#             else:
-#                 # y pos needs to be flipped
-#                 dpos[1] = -dpos[1]
+        # If we're using a non-forward facing configuration, need to adjust relative position / orientation
+        if env_configuration == "single-arm-opposed":
+            # Swap x and y for pos and flip x,y signs for ori
+            dpos = dpos[[1, 0, 2]]
+            drotation[0] = -drotation[0]
+            drotation[1] = -drotation[1]
+            if active_arm == "left":
+                # x pos needs to be flipped
+                dpos[0] = -dpos[0]
+            else:
+                # y pos needs to be flipped
+                dpos[1] = -dpos[1]
 
-#         # Lastly, map to axis angle form
-#         drotation = T.quat2axisangle(drotation)
+        # Lastly, map to axis angle form
+        drotation = T.quat2axisangle(drotation)
 
-#     elif controller.name == "OSC_POSE":
-#         # Flip z
-#         drotation[2] = -drotation[2]
-#         # Scale rotation for teleoperation (tuned for OSC) -- gains tuned for each device
-#         drotation = drotation * 1.5 if isinstance(device, Keyboard) else drotation * 50
-#         dpos = dpos * 75 if isinstance(device, Keyboard) else dpos * 125
-#     elif controller.name == "OSC_POSITION":
-#         dpos = dpos * 75 if isinstance(device, Keyboard) else dpos * 125
-#     else:
-#         # No other controllers currently supported
-#         print("Error: Unsupported controller specified -- Robot must have either an IK or OSC-based controller!")
+    elif controller.name == "OSC_POSE":
+        # Flip z
+        drotation[2] = -drotation[2]
+        # Scale rotation for teleoperation (tuned for OSC) -- gains tuned for each device
+        drotation = drotation * 1.5 if isinstance(device, Keyboard) else drotation * 50
+        dpos = dpos * 75 if isinstance(device, Keyboard) else dpos * 125
+    elif controller.name == "OSC_POSITION":
+        # print(dpos)
 
-#     # map 0 to -1 (open) and map 1 to 1 (closed)
-#     grasp = 1 if grasp else -1
-
-#     # Create action based on action space of individual robot
-#     if controller.name == "OSC_POSITION":
-#         action = np.concatenate([dpos, [grasp] * gripper_dof])
-#     else:
-#         action = np.concatenate([dpos, drotation, [grasp] * gripper_dof])
-
-#     # Return the action and grasp
-    # return action, grasp
-
-
-
-
-def get_keyboard_target_pos(current):
-    target_pos = current.copy()
-    print("\nCurrent position: ", target_pos)
-    print("Enter new target position (x, y, z, gripper) or type 'q' to quit:")
-
-    
-    
-    user_input = input("Target position (x y z 1,0 for gripper): ").strip()
-    if user_input.lower() == 'q':
-        return None  # Signal to exit
-
-    # Parse new position
-    if len(user_input.split()) == 3:
-        x,y,z =  map(float, user_input.split())
-        # print(x,y,z, 'inputs')
-        # g = 0.0
-        g = 0
+        dpos = dpos * 75 if isinstance(device, Keyboard) else dpos * 125
     else:
-        x, y, z, g = map(float, user_input.split())
-    target_pos = np.array([x, y, z, int(g)])
-    print(target_pos,'targ')
-    return target_pos
-  
+        # No other controllers currently supported
+        print("Error: Unsupported controller specified -- Robot must have either an IK or OSC-based controller!")
+
+    # map 0 to -1 (open) and map 1 to 1 (closed)
+    grasp = 1 if grasp else -1
+
+    # Create action based on action space of individual robot
+    if controller.name == "OSC_POSITION":
+        # print(dpos)
+        # print(gripper_dof)
+        action = np.concatenate([dpos, [grasp] * gripper_dof])
+    else:
+        action = np.concatenate([dpos, drotation, [grasp] * gripper_dof])
+
+    # Return the action and grasp
+    # print(action,"act")
+    return action, grasp
+
 
 
 
@@ -176,89 +158,47 @@ def collect_human_trajectory(env, device, arm, env_configuration, remove_directo
     saving = True
     count = 0
 
-    print(env._get_observations().keys())
-    # print(env._get_observations()['robot0_eef_pos'])
-    # print(env.robots[0].controller.keys())
-    # print('ahhh')
-    grasp = 1 if device.get_controller_state()["grasp"] else -1
-    target_pos = env._get_observations()['robot0_eef_pos'].copy()
-    target_pos = np.append(target_pos,grasp)
-    current = target_pos.copy()
-    # print(device.get_controller_state().keys())
-    # print(target_pos)
-    # print('')
-    # print(env._get_observations()['robot0_gripper_qpos'])
-    # prin
-
-    pid = basicPID()
-
-    
+    # print(env._get_observations().keys())
     while True:
         count += 1
         # Set active robot
-        current = env._get_observations()['robot0_eef_pos'].copy()
-        grasp = target_pos[3]
-        current = np.append(current, grasp)
         active_robot = env.robots[0] if env_configuration == "bimanual" else env.robots[arm == "left"]
+        # print(env.robots[0].get_observations().keys())
+        # print(env._get_observations()["robot0_gripper_qpos"])
+        # print('ahhh')
+        # print(env.get_observations().keys(),"key")
+        print(env._get_observations()["robot0_eef_pos"])
         # print(env_configuration)
         # print(device)
         # print(arm)  
         # Get the newest action
-        # action, grasp = input2action(
-        #     device=device,
-        #     robot=active_robot,
-        #     active_arm=arm,
-        #     env_configuration=env_configuration
-        # )
+        action, grasp = input2actionmod(
+            device=device,
+            robot=active_robot,
+            active_arm=arm,
+            env_configuration=env_configuration
+        )
+        # print(action, "action")
         # print(action,grasp)
         # If action is none, then this a reset so we should break
-        # if action is None:
-            # print("Break")
+        if action is None:
+            print("Break")
             
             # saving = False
-            # break
-        # if use_discrete_actions:
+            break
+        if use_discrete_actions:
             # action = get_discretized_actions(action, num_discrete_actions)
-            # action = env.get_discrete_action()
+            action = env.get_discrete_action()
 
         # Run environment step
         # print(action)
         # print('aaaaa')
-        # print(current)
-        # print(target_pos)
-        if ((target_pos - current )**2).mean() < 0.00001:
-            
-            target_pos = get_keyboard_target_pos(target_pos)
-            pid.reset()
-            print(pid.accumulated_error)
-        # action = 
-        
-
-        # print(current)
-        # print(target_pos)
-        if target_pos is None:
-            print("Ending trajectory collection.")
-            break  # Exit loop if user quits
-        # action = np.clip(1e5*(target_pos - current),-3,3)
-        action = pid.update(current,target_pos)
-        print(action)
-        action[3] = target_pos[3]
-    
-        # target_pos = new_target_pos
-        # Generate action to move to target position
-        # target_orientation = env._get_observations()['robot0_eef_pos']  # Keep current orientation
-        # target_pose = {"position": target_pos, "orientation": target_orientation}
-        # grasp = 1 if device.get_controller_state()["grasp"] else -1
-        # action = np.clip(new_target_pos - target_pos)
-
         env.step(action)
         env.render()
 
         # Also break if we complete the task
         if task_completion_hold_count == 0:
             # saving = True
-            # print('bruv')
-
             break
         
 
