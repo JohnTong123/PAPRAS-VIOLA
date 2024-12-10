@@ -202,29 +202,29 @@ class StackTwoTypesDomain(BaseDomain):
 
         return object_names
 
-    # def _setup_camera(self, mujoco_arena):
-
-    #     mujoco_arena.set_camera(
-    #         camera_name="frontview",
-    #         pos=[0.456131746834771, 0.0, 1.3503500240372423],
-    #         quat=[0.6380177736282349, 0.3048497438430786, 0.30484986305236816, 0.6380177736282349]
-    #     )
-    #     mujoco_arena.set_camera(
-    #         camera_name="agentview",
-    #         pos=[0.456131746834771, 0.0, 1.3503500240372423],
-    #         quat=[0.6380177736282349, 0.3048497438430786, 0.30484986305236816, 0.6380177736282349]
-    #     )
-
     def _setup_camera(self, mujoco_arena):
-        # Set up the fixed camera ("frontview")
+
         mujoco_arena.set_camera(
             camera_name="frontview",
             pos=[0.456131746834771, 0.0, 1.3503500240372423],
             quat=[0.6380177736282349, 0.3048497438430786, 0.30484986305236816, 0.6380177736282349]
         )
-        # Set up the "agentview" camera, which will follow the end effector
-        self.agentview_camera_name = "agentview"
-        self.camera_offset = np.array([0.2, 0.0, 0.2])  # Adjust this to control the camera offset relative to the end effector
+        mujoco_arena.set_camera(
+            camera_name="agentview",
+            pos=[0, 0.0, 2.5],
+            quat=[0.7071068, 0, 0, 0.7071068]
+        )
+
+    # def _setup_camera(self, mujoco_arena):
+    #     # Set up the fixed camera ("frontview")
+    #     mujoco_arena.set_camera(
+    #         camera_name="frontview",
+    #         pos=[0.456131746834771, 0.0, 1.3503500240372423],
+    #         quat=[0.6380177736282349, 0.3048497438430786, 0.30484986305236816, 0.6380177736282349]
+    #     )
+    #     # Set up the "agentview" camera, which will follow the end effector
+    #     self.agentview_camera_name = "agentview"
+    #     self.camera_offset = np.array([0.2, 0.0, 0.2])  # Adjust this to control the camera offset relative to the end effector
 
     def update_camera_to_follow_eef(self):
         # Get the current position of the end effector
